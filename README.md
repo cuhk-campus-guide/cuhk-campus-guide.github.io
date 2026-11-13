@@ -23,3 +23,14 @@ python3 -m http.server 8766
 
 网页源代码采用 MIT 许可，保留原作者版权声明。
 地图、校方资料和第三方资源的使用条件见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+## 搜索与分享
+
+正式收录入口为首页和校巴总线路图，列在 [sitemap.xml](sitemap.xml) 中。
+采集页、旧地图和实验样品带 HTML `noindex` 标记；它不是数据访问权限。
+已配置规范网址、网站结构化资料、分享摘要、地图预览图和紫金色站点图标。
+未声称已提交或通过 Google Search Console、Bing Webmaster Tools 的所有权验证。
+
+```sh
+python3 scripts/check_seo.py
+```

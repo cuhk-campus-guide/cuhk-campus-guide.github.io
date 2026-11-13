@@ -3,8 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>香港中文大学校园地图</title>
-  <meta name="description" content="中大校巴、餐厅与校园设施查询。">
+  <title>CUHK 校园指南｜香港中文大学校巴、餐厅与校园地图</title>
+  <meta name="description" content="独立维护的香港中文大学（CUHK）校园指南，提供中大校巴线路与预计到站时间、餐厅营业时间、设施地点搜索及校巴总线路图。非校方官方服务，运营安排以学校最新公告为准。">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#613982">
+  <link rel="canonical" href="https://cuhk-campus-guide.github.io/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CUHK 校园指南">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:title" content="CUHK 校园指南｜中大校巴与校园地图">
+  <meta property="og:description" content="校巴线路、预计到站、餐厅营业时间与校园设施查询。独立维护，非校方官方服务。">
+  <meta property="og:url" content="https://cuhk-campus-guide.github.io/">
+  <meta property="og:image" content="https://cuhk-campus-guide.github.io/assets/site-preview.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CUHK 校园指南的紫金色校园地图与校巴位置示意">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CUHK 校园指南｜中大校巴与校园地图">
+  <meta name="twitter:description" content="校巴线路、预计到站、餐厅营业时间与校园设施查询。非校方官方服务。">
+  <meta name="twitter:image" content="https://cuhk-campus-guide.github.io/assets/site-preview.jpg">
+  <meta name="twitter:image:alt" content="CUHK 校园指南的校园地图画面">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://cuhk-campus-guide.github.io/#website",
+        "url": "https://cuhk-campus-guide.github.io/",
+        "name": "CUHK 校园指南",
+        "alternateName": ["中大校园指南", "香港中文大學校園指南", "CUHK Campus Guide"],
+        "description": "独立维护的中大校巴、餐厅与校园设施地图，非校方官方服务。",
+        "inLanguage": "zh-CN",
+        "publisher": {
+          "@type": "Organization",
+          "name": "CUHK Campus Guide 独立项目",
+          "url": "https://cuhk-campus-guide.github.io/",
+          "sameAs": "https://github.com/cuhk-campus-guide"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://cuhk-campus-guide.github.io/#webpage",
+        "url": "https://cuhk-campus-guide.github.io/",
+        "name": "CUHK 校园指南｜香港中文大学校巴、餐厅与校园地图",
+        "isPartOf": {"@id": "https://cuhk-campus-guide.github.io/#website"},
+        "about": {"@type": "Place", "name": "香港中文大学 The Chinese University of Hong Kong"},
+        "primaryImageOfPage": {"@type": "ImageObject", "url": "https://cuhk-campus-guide.github.io/assets/site-preview.jpg", "width": 1200, "height": 630}
+      }
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="demos/ui-modes/assets/leaflet.css">
   <link rel="stylesheet" href="assets/campus_guide.css?v=ca13f6bfe8afc798">
   <style>
@@ -1319,6 +1370,7 @@
   </style>
 </head>
 <body>
+  <noscript><main style="padding:24px;background:white;color:#613982;position:relative;z-index:2000"><h1>CUHK 校园指南</h1><p>香港中文大学校巴、餐厅营业时间及校园设施地图。地图与地点搜索需要启用 JavaScript。</p><p>本项目独立维护，非校方官方服务。校巴安排请以<a href="https://transport.cuhk.edu.hk/">中大交通处</a>公告为准。</p><p><a href="demos/shuttle-atlas/">校巴线路图</a> · <a href="https://www.fno.cuhk.edu.hk/staff/on-campus-catering-outlets/">校方餐饮资料</a></p></main></noscript>
   <span id="count" hidden>正在加载 OSM 数据</span>
   <nav id="viewModeDock" class="view-mode-dock" aria-label="视图切换">
     <button class="view-mode-button is-active" type="button" data-mode="map">地图</button>

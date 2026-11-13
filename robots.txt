@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Public non-search pages use HTML noindex so crawlers can read that directive.
+# This file is not an access control for GPS or other private cloud records.
+Sitemap: https://cuhk-campus-guide.github.io/sitemap.xml
