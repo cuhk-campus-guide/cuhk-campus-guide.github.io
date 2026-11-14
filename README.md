@@ -42,7 +42,10 @@ python3 -m http.server 8766
 正式收录入口为首页和校巴总线路图，列在 [sitemap.xml](sitemap.xml) 中。
 采集页、旧地图和实验样品带 HTML `noindex` 标记；它不是数据访问权限。
 已配置规范网址、网站结构化资料、分享摘要、地图预览图和紫金色站点图标。
-未声称已提交或通过 Google Search Console、Bing Webmaster Tools 的所有权验证。
+2026-11-14 已完成 Google Search Console 与 Bing Webmaster Tools 所有权验证，
+并提交 sitemap。Google 首页已请求编入索引；Bing sitemap 正在处理。
+Google sitemap 报告仍显示抓取失败，但实际网址测试抓取成功；尚未确认实际收录。
+状态与保留验证标记的说明见 [搜索引擎提交记录](SEARCH_ENGINES.md)。
 
 ```sh
 python3 scripts/check_seo.py
