@@ -1,5 +1,6 @@
 (function(root) {
   function init(options) {
+    const i18n=root.CUHK_I18N, tr=value=>i18n?i18n.t(value):value;
     const { map } = options, L = root.L, data = root.CUHK_CAMPUS_GUIDE, core = root.CUHK_GUIDE_CORE;
     const allowNavigation = options.allowNavigation === true;
     const escape = value => String(value || '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
@@ -43,11 +44,11 @@
         if (zoom < 17 && label.area < (zoom < 16 ? 14000 : 4000)) return;
         const point = map.latLngToContainerPoint([label.coord[1],label.coord[0]]);
         if (point.x < -100 || point.x > viewport.x + 100 || point.y < -30 || point.y > viewport.y + 30) return;
-        const width = Math.min(180,label.name.length*11), box = [point.x-width/2,point.y-8,point.x+width/2,point.y+8];
+        const display=i18n?i18n.name(label):label.name, width = Math.min(i18n?.language()==='en'?220:180,display.length*(i18n?.language()==='en'?6.2:11)), box = [point.x-width/2,point.y-8,point.x+width/2,point.y+8];
         if (boxes.some(other => box[0] < other[2]+6 && box[2] > other[0]-6 && box[1] < other[3]+5 && box[3] > other[1]-5)) return;
         boxes.push(box);
         L.marker([label.coord[1],label.coord[0]], { interactive:false, icon:L.divIcon({
-          className:'guide-map-label', html:escape(label.name), iconSize:[width,18], iconAnchor:[width/2,9] }) }).addTo(labels);
+          className:'guide-map-label', html:escape(display), iconSize:[width,18], iconAnchor:[width/2,9] }) }).addTo(labels);
       });
     }
     map.on('zoomend moveend walkwayschange',renderLabels); renderLabels();
@@ -58,8 +59,8 @@
     const stationBusLayer=L.layerGroup();
     const stationRaw=data.items.find(item=>item.id==='facility/mtr-exit/university-c');
     const stationItem=stationRaw && core.facility(stationRaw);
-    const stationMarker=stationItem && L.marker([stationItem.webCoord[1],stationItem.webCoord[0]],{icon:markerIcon(stationItem),title:'大学站港铁',alt:'大学站港铁',zIndexOffset:2000}).addTo(map);
-    if(stationMarker) {stationMarker.on('click',()=>openMtrPreview(stationItem,stationMarker));stationMarker.bindTooltip('大学站');}
+    const stationMarker=stationItem && L.marker([stationItem.webCoord[1],stationItem.webCoord[0]],{icon:markerIcon(stationItem),title:tr('大学站港铁'),alt:tr('大学站港铁'),zIndexOffset:2000}).addTo(map);
+    if(stationMarker) {stationMarker.on('click',()=>openMtrPreview(stationItem,stationMarker));stationMarker.bindTooltip(tr('大学站'));}
     const stationBusMarkers=data.items.filter(item=>item.category==='public_transit' && /大学站|大學站/.test(item.name || '')).map(raw=>{
       const item=core.facility(raw);
       if(!item.locatable || !item.webCoord) return null;
@@ -147,7 +148,8 @@
         const controller = new AbortController(); mtrAbort = controller;
         const timeout = setTimeout(() => controller.abort(),8000);
         try {
-          const response = await fetch(root.CUHK_MTR.URL, { signal:controller.signal, credentials:'omit', cache:'no-store' });
+          const requestUrl=new URL(root.CUHK_MTR.URL);requestUrl.searchParams.set('lang',i18n?.language()==='en'?'EN':'TC');
+          const response = await fetch(requestUrl.href, { signal:controller.signal, credentials:'omit', cache:'no-store' });
           if (!response.ok) throw new Error('mtr_http');
           const payload = await response.json();
           return { ok:true,payload,servedAt:Date.now() };
@@ -182,7 +184,7 @@
       sheet.dataset.layout = layout;
       sheet.innerHTML = html; sheet.setAttribute('aria-label', label); layer.hidden = false;
       document.body.classList.add('guide-overlay-open');
-      drawIcons(); sheet.focus();
+      i18n?.translateDOM(sheet);drawIcons(); sheet.focus();
     }
     function close() { stopMtr(); stopPublicBus(); layer.hidden = true; document.body.classList.remove('guide-overlay-open'); if (focusReturn && focusReturn.isConnected) focusReturn.focus(); }
     function menu(page = menuPage) {
@@ -198,6 +200,7 @@
         <button data-action="facility-search">${icon('building-2')}校园设施${icon('chevron-right')}</button>
         <a href="web-gps/">${icon('map-pinned')}贡献轨迹${icon('chevron-right')}</a>`;
       show(`<div class="guide-menu">${heading}${content}</div>`, '校园地图菜单', 'menu');
+      if(page==='home'&&i18n){const language=document.createElement('div');sheet.querySelector('.guide-theme-control').after(language);i18n.mountSwitcher(language);}
     }
     function search(openMode = 'place') {
       mode = openMode;
@@ -221,11 +224,11 @@
       const symbols = { building:'building-2', stop:'bus-front', dining:'utensils', facility:'map-pin' };
       sheet.querySelector('.guide-results').innerHTML = results.length ? results.map((item,index) =>
         `<button class="guide-result ${item.statusLabel || item.hidden ? 'is-suspended' : ''}" data-action="result" data-index="${index}">
-        <span class="guide-result-symbol">${item.category === 'mtr_exit' ? `<img src="${data.icons[theme].mtr}" alt="" aria-hidden="true" width="28" height="28">` : icon(symbols[item.kind] || 'map-pin')}</span><span class="guide-result-copy"><strong>${escape(core.displayNames(item).primary)}</strong>
-        ${core.displayNames(item).secondary ? `<span class="guide-result-english">${escape(core.displayNames(item).secondary)}</span>` : ''}
+        <span class="guide-result-symbol">${item.category === 'mtr_exit' ? `<img src="${data.icons[theme].mtr}" alt="" aria-hidden="true" width="28" height="28">` : icon(symbols[item.kind] || 'map-pin')}</span><span class="guide-result-copy"><strong data-no-i18n>${escape(core.displayNames(item).primary)}</strong>
+        ${core.displayNames(item).secondary ? `<span class="guide-result-english" data-no-i18n>${escape(core.displayNames(item).secondary)}</span>` : ''}
         ${item.category === 'public_transit' ? `<span class="guide-result-routes">${escape(data.transitLines(item,2,query).join('\n'))}</span>` : ''}
         <small>${escape([item.label, item.locations && item.locations.slice(0,2).join('、'), !item.navigable && !item.locatable ? item.status : ''].filter(Boolean).join(' · '))}</small></span>${icon('chevron-right')}</button>`).join('') : `<div class="guide-empty">${icon('search')}<span>没有找到匹配地点</span></div>`;
-      drawIcons();
+      i18n?.translateDOM(sheet);drawIcons();
     }
     function paragraphs(item, full) {
       const source = item.kind === 'facility' ? data.sources[item.source] : null;
@@ -256,13 +259,13 @@
       selected = item;
       const isMtr = item.category === 'mtr_exit';
       show(`<div class="guide-search-row"><button class="guide-icon" data-action="back-search" aria-label="返回搜索">${icon('arrow-left')}</button><strong>${escape(item.label || '地点资料')}</strong></div>
-      <div class="guide-detail-body">${isMtr ? '' : `<h2>${escape(core.displayNames(item).primary)}</h2><div class="guide-detail-english">${escape(core.displayNames(item).secondary)}</div>`}
+      <div class="guide-detail-body">${isMtr ? '' : `<h2 data-no-i18n>${escape(core.displayNames(item).primary)}</h2><div class="guide-detail-english" data-no-i18n>${escape(core.displayNames(item).secondary)}</div>`}
       ${isMtr ? `<div class="guide-mtr-heading"><div><strong>大学站</strong><small>东铁线</small></div><button class="guide-icon" data-action="mtr-refresh" aria-label="刷新列车时间" title="刷新列车时间">${icon('refresh-cw')}</button></div><div class="guide-mtr"></div><h3 class="guide-mtr-info-heading">车站资料</h3>${mtrStationDetails()}` : paragraphs(item,true)+links(item)}
       ${item.navigable || item.locatable ? `<div class="guide-actions"><button data-action="select-map">${icon('map-pin')}地图位置</button>${allowNavigation && item.navigable ? `<button data-action="navigate">${icon('navigation')}导航至建筑</button>` : ''}</div>` : ''}</div>`, item.name, isMtr ? 'mtr' : 'detail');
       if (isMtr) startMtr();
     }
     function markerIcon(item) {
-      if(item.category==='public_transit') return L.divIcon({html:`<div class="bus-stop-marker" role="img" aria-label="公共巴士站 ${escape(item.name)}"><span aria-hidden="true">站</span></div>`,iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14],className:'guide-selected-marker'});
+      if(item.category==='public_transit') return L.divIcon({html:`<div class="bus-stop-marker" role="img" aria-label="${escape(tr('公共巴士站')+' '+tr(item.name))}"><span aria-hidden="true">${i18n?.language()==='en'?'B':'站'}</span></div>`,iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-14],className:'guide-selected-marker'});
       return L.icon({ iconUrl:data.icons[theme][item.icon] || data.icons[theme].service,
         iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-18], className:'guide-selected-marker' });
     }
@@ -271,7 +274,7 @@
       selected = item;
       if (!item.navigable && !item.locatable) { navigation.hidden = true; selectedLayer.clearLayers(); details(item); return; }
       close(); options.setViewMode('map'); selectedLayer.clearLayers();
-      selectedMarker = L.marker([item.webCoord[1],item.webCoord[0]], { icon:markerIcon(item), zIndexOffset:1800 }).addTo(selectedLayer);
+      selectedMarker = L.marker([item.webCoord[1],item.webCoord[0]], { icon:markerIcon(item), title:i18n?i18n.name(item):item.name, alt:i18n?i18n.name(item):item.name, zIndexOffset:1800 }).addTo(selectedLayer);
       if (item.category === 'mtr_exit') {
         selectedMarker.on('click', () => openMtrPreview(item,selectedMarker));
         map.setView([item.webCoord[1],item.webCoord[0]], Math.max(map.getZoom(),17));
@@ -288,7 +291,7 @@
         startPublicBus(item,content);showNavigation();return;
       }
       const popup = document.createElement('div'); popup.className = 'guide guide-popup';
-      popup.innerHTML = item.kind === 'stop' ? options.stopPopup(item.id) : `<h2>${escape(core.displayNames(item).primary)}</h2><div class="guide-detail-english">${escape(core.displayNames(item).secondary)}</div><div class="guide-popup-body">${paragraphs(item,false)}</div>`;
+      popup.innerHTML = item.kind === 'stop' ? options.stopPopup(item.id) : `<h2 data-no-i18n>${escape(core.displayNames(item).primary)}</h2><div class="guide-detail-english" data-no-i18n>${escape(core.displayNames(item).secondary)}</div><div class="guide-popup-body">${paragraphs(item,false)}</div>`;
       const actions = document.createElement('div'); actions.className = 'guide-actions';
       const detailButton = document.createElement('button'); detailButton.innerHTML = icon('info') + '完整资料';
       detailButton.addEventListener('click', () => details(item)); actions.append(detailButton); popup.append(actions);

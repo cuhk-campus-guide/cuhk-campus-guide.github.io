@@ -1,4 +1,5 @@
 .road-network { pointer-events:none; }
+html[lang=en] .road-direction { font-size:14px; }
 footer { display:grid; grid-template-columns:40px minmax(0,1fr); gap:10px 16px; }
 .service-filter { grid-column:1/-1; display:flex; justify-self:center; width:240px; height:32px; padding:3px; background:#eee5f3; border-radius:6px; }
 .service-filter button { flex:1; min-width:0; padding:0; border:0; border-radius:4px; background:transparent; font-size:12px; }

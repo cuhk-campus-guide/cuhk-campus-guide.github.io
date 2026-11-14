@@ -13,6 +13,15 @@
 
 原始 GPS、上传凭证和云端部署密钥不包含在本仓库中。
 
+## 语言
+
+地图菜单、线路图顶部和采集页菜单可切换「简体中文／繁體中文／English」，
+浏览器会记住选择，也可直接使用 [繁體中文](https://cuhk-campus-guide.github.io/?lang=zh-Hant)
+或 [English](https://cuhk-campus-guide.github.io/?lang=en) 链接。
+英文地名复用现有中英资料与 OSM 英文名称；未确认英文名时保留中文。
+切换只影响显示，不修改站点编号、路线、ETA 参数或上传数据。
+采集或上传 GPS 时禁用语言切换，以免刷新页面中断保存。
+
 ## 本地预览
 
 ```sh

@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://cuhk-campus-guide.github.io/</loc>
-    <lastmod>2026-11-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
   </url>
+  <url><loc>https://cuhk-campus-guide.github.io/?lang=zh-Hant</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://cuhk-campus-guide.github.io/?lang=en</loc><lastmod>2026-11-14</lastmod></url>
   <url>
     <loc>https://cuhk-campus-guide.github.io/demos/shuttle-atlas/</loc>
-    <lastmod>2026-11-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
   </url>
+  <url><loc>https://cuhk-campus-guide.github.io/demos/shuttle-atlas/?lang=zh-Hant</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://cuhk-campus-guide.github.io/demos/shuttle-atlas/?lang=en</loc><lastmod>2026-11-14</lastmod></url>
 </urlset>

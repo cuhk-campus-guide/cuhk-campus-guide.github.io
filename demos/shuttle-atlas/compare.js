@@ -2,6 +2,7 @@
   const data=JSON.parse(JSON.stringify(CUHK_BUS_DATA));
   CUHK_TRANSPORT_ROUTE_SCHEMES.applyTransportRouteScheme(data,'2026-09');
   const atlas=ShuttleAtlas,designs=AtlasDesigns,base=atlas.build(data);
+  AtlasI18n.init(data, atlas.stations);
   const family=document.body.dataset.family;
   document.querySelector('#comparison-grid').innerHTML=designs.choices(family).map(p=>{
     const routes=designs.colorize(base,p),url='./?style='+p.id+'&compare=1';
@@ -13,5 +14,5 @@
       <div class="comparison-key" aria-label="线路颜色">${routes.map(r=>`<span style="--route:${r.color};--route-ink:${r.ink}">${r.id}</span>`).join('')}</div>
     </article>`;
   }).join('');
-  lucide.createIcons();
+  AtlasI18n.apply(); lucide.createIcons();
 })();

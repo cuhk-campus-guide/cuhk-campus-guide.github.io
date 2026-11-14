@@ -9,6 +9,7 @@
   const schematize=geographic&&params.get('layout')==='semi-topology';
   const atlas=geographic?GeographicAtlas.build(data,ShuttleAtlas,{schematize}):ShuttleAtlas;
   const designs=AtlasDesigns,baseRoutes=geographic?atlas.routes:atlas.build(data,{includeMeetClass:true}),stations=atlas.stations;
+  AtlasI18n.init(data, stations);
   const state={route:null,station:null,group:'all',zoom:1,x:0,y:0,fit:1,design:designs.get(comparing?params.get('style'):'a').id};
   let profile=designs.get(state.design),routes=designs.colorize(baseRoutes,profile);
   const map=$('#map'),svg=$('#network'),drawing=$('#drawing'),detail=$('#detail');
@@ -65,6 +66,7 @@
     renderMap();renderList();renderDetail();lucide.createIcons();
     $('#map-caption').textContent=state.route?state.route+'号线 · '+routeById(state.route).label:state.station?stations[state.station].name:atlas.groupLabel(state.group);
     $('#map-count').textContent=`${routes.filter(enabled).length} 条线路 / ${memberIds.filter(id=>routes.some(r=>enabled(r)&&serves(r,id))).length} 站`;
+    AtlasI18n.apply();
   }
   function chooseRoute(id){state.route=state.route===id?null:id;state.station=null;if(state.route&&!inGroup(routeById(id)))state.group='all';render();detail.scrollTop=0;}
   function clear(){state.route=null;state.station=null;render();}
@@ -106,6 +108,10 @@
     copy.append(key);
     key.firstElementChild.textContent=`香港中文大学 · 校巴线路图 · ${profile.badge||profile.id.toUpperCase()}`;
     if(schematize)key.lastElementChild.textContent='2026 年 9 月线路方案 · 北向上，线路简化，非导航地图 · 资料：中大交通处';
+    AtlasI18n.apply(copy);
+    if(window.CUHK_I18N?.language()==='en')key.querySelectorAll('text').forEach(n=>{
+      if(n.getAttribute('font-size')==='21'&&!n.hasAttribute('text-anchor'))n.setAttribute('font-size','14');
+    });
     const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(copy)],{type:'image/svg+xml;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=`CUHK-shuttle-${profile.badge||profile.id.toUpperCase()}.svg`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   };
   let previousSize=null;

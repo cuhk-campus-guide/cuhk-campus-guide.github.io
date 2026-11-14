@@ -1,6 +1,6 @@
 (function(root) {
   const data = root.CUHK_CAMPUS_GUIDE || (typeof require !== 'undefined' ? require('../data/campus_guide.js') : null);
-  const normalize = data.normalize;
+  const normalize = value => data.normalize(root.CUHK_I18N ? root.CUHK_I18N.simplified(value) : value);
   const nameOf = item => item.name || (item.title === item.building.name ? item.title :
     `${item.building.name} ${item.title || data.categories[item.category].label}`);
   function facility(item, at = new Date()) {
@@ -45,7 +45,7 @@
         status: item.hidden ? item.temporary_closure && item.temporary_closure !== 'None' ? item.temporary_closure : '暂停营业' : '' });
     });
     if (category === 'all' || category === 'stop') stops.forEach(item => {
-      if (matches(item.name + ' ' + item.id)) other.push({ ...item, kind: 'stop', label: '校巴站', icon: 'service', navigable: true });
+      if (matches(item.name + ' ' + item.id + ' ' + (root.CUHK_I18N?.name(item)||''))) other.push({ ...item, kind: 'stop', label: '校巴站', icon: 'service', navigable: true });
     });
     const facilities = category === 'all' || category === 'facility' ? facilityMatches(query, at) :
       category === 'stop' ? facilityMatches(query, at).filter(item => ['public_transit', 'mtr_exit'].includes(item.category)) : [];
@@ -61,9 +61,14 @@
   }
   function displayNames(item) {
     const name = String(item.name || ''), english = String(item.english || '');
-    if (english) return { primary: name.endsWith(english) ? name.slice(0, -english.length).trim() : name, secondary: english === name ? '' : english };
     const bilingual = name.match(/^(.+[\u3400-\u9fff）)])\s+([A-Za-z].*)$/);
-    return { primary: bilingual ? bilingual[1] : name, secondary: bilingual ? bilingual[2] : '' };
+    const chinese = english && name.endsWith(english) ? name.slice(0,-english.length).trim() : bilingual ? bilingual[1] : name;
+    const en = english || (bilingual ? bilingual[2] : '') || (root.CUHK_I18N ? root.CUHK_I18N.englishOf(item) : '');
+    if (root.CUHK_I18N?.language()==='en') {
+      const translated = en || root.CUHK_I18N.name(item);
+      return {primary:translated,secondary:translated!==chinese ? root.CUHK_I18N.traditional(chinese) : ''};
+    }
+    return {primary:root.CUHK_I18N ? root.CUHK_I18N.name({name:chinese}) : chinese,secondary:en===chinese?'':en};
   }
   const api = { facility, search, phone, safeUrl, displayNames };
   root.CUHK_GUIDE_CORE = api;

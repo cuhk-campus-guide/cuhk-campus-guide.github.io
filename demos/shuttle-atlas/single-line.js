@@ -4,6 +4,7 @@
   const data = JSON.parse(JSON.stringify(CUHK_BUS_DATA));
   CUHK_TRANSPORT_ROUTE_SCHEMES.applyTransportRouteScheme(data, '2026-09');
   const atlas = ShuttleAtlas, graph = ShuttleSingleLine.build(atlas, data);
+  AtlasI18n.init(data, atlas.stations);
   const map = $('#map'), drawing = $('#drawing'), detail = $('#detail');
   const state = {route:null, station:null, x:0, y:0, zoom:1, fit:1};
   const routeFor = id => graph.routes.find(r => r.id === id);
@@ -41,7 +42,7 @@
     $('#routes').innerHTML = graph.routes.map(r => `<button class="route-button" data-route="${r.id}" aria-label="${r.id}号线 ${r.label}" aria-pressed="${state.route === r.id}">${badge(r.id)}<span>${r.label}</span></button>`).join('');
     $('#caption').textContent = state.route ? `${state.route}号线 · ${routeFor(state.route).label}` : state.station ? atlas.stations[state.station].name : '全部穿梭线路';
     $('#count').textContent = `${active.size} 条线路 · ${graph.stations.filter(s => s.routes.some(id => active.has(id))).length} 站`;
-    renderDetail(); lucide.createIcons();
+    renderDetail(); AtlasI18n.apply(); lucide.createIcons();
   }
   function renderDetail() {
     detail.hidden = !state.route && !state.station;

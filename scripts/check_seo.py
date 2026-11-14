@@ -81,7 +81,8 @@ def main():
     sitemap = ET.parse(ROOT / "sitemap.xml")
     ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     urls = [x.text for x in sitemap.findall("s:url/s:loc", ns)]
-    assert sorted(urls) == sorted(PRIMARY.values()) and len(urls) == len(set(urls))
+    expected=[url+suffix for url in PRIMARY.values() for suffix in ("", "?lang=zh-Hant", "?lang=en")]
+    assert sorted(urls) == sorted(expected) and len(urls) == len(set(urls))
     assert "web-gps" not in " ".join(urls)
     with Image.open(ROOT / "assets/site-preview.jpg") as image:
         assert image.format == "JPEG" and image.size == (1200, 630)

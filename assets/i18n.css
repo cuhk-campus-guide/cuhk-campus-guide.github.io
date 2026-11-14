@@ -1,0 +1,12 @@
+.cuhk-language-picker{display:flex;align-items:center;gap:10px;min-width:0;color:inherit;font:inherit;letter-spacing:0}
+.cuhk-language-picker>span{font-size:13px;flex:none}
+.cuhk-language-select{min-width:0;max-width:200px;width:100%;min-height:42px;border:1px solid var(--line,#e4dbe9);border-radius:6px;padding:8px 28px 8px 10px;background:var(--paper,#fff);color:var(--ink,#613982);font:inherit;font-size:14px;letter-spacing:0;cursor:pointer}
+.cuhk-language-select:focus-visible{outline:3px solid #e8b731;outline-offset:2px}
+.cuhk-language-select:disabled{opacity:.5;cursor:default}
+.guide-menu .cuhk-language-picker{padding:8px 0 14px}.guide-menu .cuhk-language-select{max-width:none;flex:1}
+html[lang="en"] .guide-menu-brand>span{display:none}
+html[lang="en"] .guide-tabs{overflow-x:auto;justify-content:flex-start}
+html[lang="en"] .guide-tabs button{flex:none;white-space:nowrap}
+html[lang="en"] .guide-result-copy strong,html[lang="en"] .guide-detail-body h2,html[lang="en"] .vehicle-popup strong{overflow-wrap:anywhere}
+html[lang="en"] .guide-map-label{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[lang="en"] .guide-menu button,html[lang="en"] .guide-menu a{min-width:0;white-space:normal;line-height:1.35}

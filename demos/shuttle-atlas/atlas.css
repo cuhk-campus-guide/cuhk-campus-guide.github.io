@@ -12,6 +12,26 @@
 }
 * { box-sizing: border-box; letter-spacing: 0; }
 body { margin: 0; }
+[data-atlas-language] { flex:none; max-width:108px; }
+[data-atlas-language] .cuhk-language-picker > span { display:none; }
+[data-atlas-language] select { width:104px; max-width:108px; min-height:32px; font:12px/1.4 system-ui,sans-serif; padding:5px 2px; }
+html[lang=en] .service-tabs button { white-space:normal; }
+html[lang=en] .route-name { white-space:normal; overflow-wrap:normal; word-break:normal; }
+html[lang=en] .stop-row small { flex:0 1 40%; }
+html[lang=en] .detail-top h3 { min-width:0; overflow-wrap:anywhere; }
+@media(max-width:760px) {
+  html[lang=en] .identity h1 { font-size:16px; }
+  html[lang=en] .identity p { max-width:150px; font-size:9px; }
+  html[lang=en] .header { gap:6px; padding-inline:10px; }
+  html[lang=en] .brand-mark { display:none; }
+  html[lang=en] .service-tabs { width:240px; }
+  html[lang=en] .map-footer { font-size:8px; }
+  html[lang=en] .route-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+}
+@media(max-width:400px) {
+  html[lang=en] .route-list .route-button { justify-content:center; }
+  html[lang=en] .route-list .route-name { display:none; }
+}
 h1, h2, h3, p { margin: 0; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; color: inherit; cursor: pointer; }

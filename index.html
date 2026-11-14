@@ -3,11 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="assets/vendor/opencc-full.js?v=95b04abf136d9c28"></script>
+  <script src="assets/i18n.js?v=ad719104bc42c297"></script>
+  <script src="assets/place-names.js?v=437a23c1c039b0df"></script>
+  <script src="assets/content-i18n.js?v=70854cf335fae8ee"></script>
+  <script src="assets/map-i18n.js?v=ac7c5bf9d4056f46"></script>
+  <link rel="stylesheet" href="assets/i18n.css?v=4cece3170833afe0">
   <title>CUHK 校园指南｜香港中文大学校巴、餐厅与校园地图</title>
   <meta name="description" content="独立维护的香港中文大学（CUHK）校园指南，提供中大校巴线路与预计到站时间、餐厅营业时间、设施地点搜索及校巴总线路图。非校方官方服务，运营安排以学校最新公告为准。">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#613982">
   <link rel="canonical" href="https://cuhk-campus-guide.github.io/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://cuhk-campus-guide.github.io/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://cuhk-campus-guide.github.io/?lang=zh-Hant">
+  <link rel="alternate" hreflang="en" href="https://cuhk-campus-guide.github.io/?lang=en">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CUHK 校园指南">
@@ -56,7 +65,7 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="demos/ui-modes/assets/leaflet.css">
+  <link rel="stylesheet" href="demos/ui-modes/assets/leaflet.css?v=a783710282418482">
   <link rel="stylesheet" href="assets/campus_guide.css?v=ca13f6bfe8afc798">
   <style>
     :root {
@@ -1394,23 +1403,29 @@
   </section>
   <div id="loading" class="loading" hidden></div>
 
-  <script src="demos/ui-modes/assets/leaflet.js"></script>
-  <script src="data/campus_updates.js?v=20261025.2"></script>
-  <script src="data/cuhk_bus_routes.js?v=20261026.trip-anchor"></script>
-  <script src="data/eta_prediction.js?v=20261025.2"></script>
-  <script src="data/eta_model.js?v=20261026.rollback"></script>
-  <script src="data/transport_route_schemes.js?v=20261025.2"></script>
-  <script src="data/cuhk_dining_pois.js?v=20261026.1"></script>
-  <script src="demos/ui-modes/assets/lucide.js"></script>
-  <script src="assets/campus_coordinates.js?v=20261026.5"></script>
+  <script src="demos/ui-modes/assets/leaflet.js?v=db49d009c841f5ca"></script>
+  <script src="data/campus_updates.js?v=216e146471fa2f64"></script>
+  <script src="data/cuhk_bus_routes.js?v=3a29ca0e8602027c"></script>
+  <script src="data/eta_prediction.js?v=10e9b503549e6dae"></script>
+  <script src="data/eta_model.js?v=65bd79d3cf15dd3e"></script>
+  <script src="data/transport_route_schemes.js?v=1cae822168fa0e6a"></script>
+  <script src="data/cuhk_dining_pois.js?v=dd6792739d278efa"></script>
+  <script src="demos/ui-modes/assets/lucide.js?v=3411692820cb8d47"></script>
+  <script src="assets/campus_coordinates.js?v=ead9f61d55e65384"></script>
   <script src="data/campus_guide.js?v=f0caa163d0075509"></script>
-  <script src="assets/campus_guide_core.js?v=653f0753df60a9ef"></script>
+  <script src="assets/campus_guide_core.js?v=cbf0c6a6261a8c7e"></script>
   <script src="assets/campus_walkways.js?v=d353767870abbf56"></script>
   <script src="assets/mtr_arrivals.js?v=3beab2c08ec0ea3a"></script>
   <script src="assets/mtr_station.js?v=f4ecfe657445e6cd"></script>
-  <script src="assets/public_bus_arrivals.js?v=12b2c4d74c2d7d04"></script>
-  <script src="assets/campus_guide_ui.js?v=web-gps-20261113"></script>
+  <script src="assets/public_bus_arrivals.js?v=257b710c2de4297c"></script>
+  <script src="assets/campus_guide_ui.js?v=a08f688ffd514215"></script>
   <script>
+    const mapText = (text) => CUHK_MAP_I18N.text(text);
+    const mapName = (entity) => CUHK_I18N.name(entity);
+    const mapHtml = (html) => CUHK_MAP_I18N.html(html);
+    ["viewModeDock", "busRouteDock", "routeMessagePanel", "metroPanel", "map"].forEach((id) => {
+      CUHK_I18N.translateDOM(document.getElementById(id));
+    });
     const OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter";
     const CUHK_CENTER = [22.4194, 114.2072];
     const CUHK_QUERY_BBOX = "22.4095,114.1965,22.4308,114.2168";
@@ -1475,15 +1490,16 @@
       CUHK_CAMPUS_UPDATES.venues.forEach((venue) => {
         const events = CUHK_CAMPUS_UPDATES.eventsForBuilding(venue.code);
         if (!events.length) return;
-        const html = `<strong>${escapeHtml(venue.name)} · 近期活动</strong>` + events.map((event) => `
+        const html = mapHtml(`<strong>${escapeHtml(mapName(venue))} · ${escapeHtml(mapText("近期活动"))}</strong>` + events.map((event) => `
           <div class="campus-event"><strong>${escapeHtml(event.title)}</strong>
           <div>${escapeHtml(event.dateText)}</div><div>${escapeHtml(event.venueDetail)}</div>
           ${event.access ? `<div>${escapeHtml(event.access)}</div>` : ""}
           <a href="${escapeHtml(event.sourceUrl)}" target="_blank" rel="noopener noreferrer">官方详情</a></div>
-        `).join("") + `<div>核对日期：${CUHK_CAMPUS_UPDATES.checkedAt}；入场安排以主办方为准。</div>`;
+        `).join("") + `<div>${escapeHtml(mapText("核对日期："))}${CUHK_CAMPUS_UPDATES.checkedAt}${escapeHtml(mapText("；入场安排以主办方为准。"))}</div>`);
         L.marker([venue.webCoord[1], venue.webCoord[0]], {
+          title: mapName(venue), alt: mapName(venue),
           icon: L.divIcon({ className: "activity-building-marker", html: "★", iconSize: [28, 28], iconAnchor: [14, 14] }),
-        }).bindTooltip(`${venue.name} · 活动`).bindPopup(html, { maxWidth: 330, maxHeight: 380 }).addTo(activityLayer);
+        }).bindTooltip(`${mapName(venue)} · ${mapText("活动")}`).bindPopup(html, { maxWidth: 330, maxHeight: 380 }).addTo(activityLayer);
       });
     }
     renderCampusEvents();
@@ -1620,7 +1636,7 @@
       return route.stops
         .map((id) => CUHK_BUS_DATA.stops[id])
         .filter((stop) => stop && stop.kind !== "waypoint")
-        .map((stop) => stop.name);
+        .map((stop) => mapName(stop));
     }
 
     function busVehicleLabel(route) {
@@ -1665,7 +1681,7 @@
       const items = buildMetroItems();
       metroList.innerHTML = items.length
         ? items.map(metroItemHtml).join("")
-        : `<div class="metro-empty">暂无运行中的校巴</div>`;
+        : `<div class="metro-empty">${escapeHtml(mapText("暂无运行中的校巴"))}</div>`;
       if (options.center !== false) requestAnimationFrame(centerSelectedLcdStop);
     }
 
@@ -1752,8 +1768,8 @@
         id,
         route: vehicle.route,
         label: busVehicleLabel(vehicle.route),
-        routeName: `${vehicle.route.id} · ${vehicle.route.name}`,
-        nextStopName: originDeparture && originStop ? `始发站 · ${originStop.name}` : (nextStop ? nextStop.name : "接近终点"),
+        routeName: `${vehicle.route.id} · ${mapName(vehicle.route)}`,
+        nextStopName: originDeparture && originStop ? `${mapText("始发站")} · ${mapName(originStop)}` : (nextStop ? mapName(nextStop) : mapText("接近终点")),
         etaText: busVehicleEtaText(vehicle),
         etaMinutes: Number.isFinite(busVehicleNextStopEtaMinutes(vehicle)) ? busVehicleNextStopEtaMinutes(vehicle) : 9999,
         color: vehicle.route.color,
@@ -1817,7 +1833,7 @@
           return {
             state,
             routeStopIndex: stopIndex,
-            shortName: shortLcdStopName(stop.name),
+            shortName: CUHK_I18N.language() === "en" ? mapName(stop) : mapText(shortLcdStopName(stop.name)),
           };
         })
         .filter(Boolean);
@@ -1903,9 +1919,9 @@
     }
 
     function busVehicleEtaText(vehicle) {
-      if (isOriginDepartureVehicle(vehicle)) return "即将出发";
+      if (isOriginDepartureVehicle(vehicle)) return mapText("即将出发");
       const eta = busVehicleNextStopEtaMinutes(vehicle);
-      return Number.isFinite(eta) ? CUHK_BUS_UTILS.arrivalEtaText({ status: "scheduled", etaMinutes: eta, stopIndex: -1 }) : "暂无 ETA";
+      return mapText(Number.isFinite(eta) ? CUHK_BUS_UTILS.arrivalEtaText({ status: "scheduled", etaMinutes: eta, stopIndex: -1 }) : "暂无 ETA");
     }
 
     function readableRouteTextColor(color) {
@@ -2045,9 +2061,11 @@
       buildBusStopEntries(routes).forEach((entry) => {
         busStopDisplayMarkers(entry).forEach((display) => {
           const marker = L.marker([display.coord[1], display.coord[0]], {
+            title: mapName(entry.stop),
+            alt: mapName(entry.stop),
             icon: L.divIcon({
               className: "",
-              html: `<div class="bus-stop-marker"><span>站</span></div>`,
+              html: `<div class="bus-stop-marker"><span>${escapeHtml(mapText("站"))}</span></div>`,
               iconSize: [22, 22],
               iconAnchor: [11, 11],
             }),
@@ -2063,7 +2081,7 @@
               interactive: false,
               icon: L.divIcon({
                 className: "",
-                html: `<div class="bus-stop-direction-marker" style="--route-color:${stopDirectionColor(display)}">${escapeHtml(directionGlyph)}</div>`,
+                html: `<div class="bus-stop-direction-marker" style="--route-color:${stopDirectionColor(display)}">${escapeHtml(mapText(directionGlyph))}</div>`,
                 iconSize: [22, 16],
                 iconAnchor: [-8, 14],
               }),
@@ -2099,7 +2117,7 @@
       const stopDirection = CUHK_BUS_UTILS.stopDirectionSummary(popupEntry.occurrences);
       const stopDirectionLine = stopDirection === "按线路方向"
         ? ""
-        : `<div>站点方向：${escapeHtml(stopDirection)}</div>`;
+        : `<div>${escapeHtml(mapText("站点方向："))}${escapeHtml(mapText(stopDirection))}</div>`;
       const scheduledArrivals = CUHK_BUS_UTILS.nextStopArrivals(popupEntry.occurrences)
         .filter((arrival) => arrival.status === "scheduled");
       const routeRows = scheduledArrivals
@@ -2107,33 +2125,33 @@
           const route = arrival.route;
           const directions = routeMap.get(route.id)?.directions || new Set();
           const directionText = arrival.direction
-            ? ` · ${arrival.direction}`
-            : (directions.size ? ` · ${[...directions].join(" / ")}` : "");
+            ? ` · ${mapText(arrival.direction)}`
+            : (directions.size ? ` · ${[...directions].map(mapText).join(" / ")}` : "");
           const vehicles = CUHK_BUS_UTILS.activeVehicles(route).length;
-          const vehicleText = vehicles ? ` · 当前估算 ${vehicles.toLocaleString("zh-CN")} 辆` : "";
-          const arrivalText = CUHK_BUS_UTILS.stopArrivalSummary(arrival);
+          const vehicleText = vehicles ? ` · ${mapText(`当前估算 ${vehicles.toLocaleString("zh-CN")} 辆`)}` : "";
+          const arrivalText = mapText(CUHK_BUS_UTILS.stopArrivalSummary(arrival));
           const confidence = CUHK_BUS_UTILS.routeStopEtaConfidence(route, arrival.stopIndex);
           return `
-            <div><strong>校巴 ${escapeHtml(route.id)}</strong> ${escapeHtml(route.name)}${escapeHtml(directionText)}${escapeHtml(vehicleText)}</div>
-            <div>${escapeHtml(arrivalText)} · ${escapeHtml(confidence.shortLabel)}</div>
-            <div>${escapeHtml(route.service)} · ${escapeHtml(CUHK_BUS_UTILS.scheduleSummary(route))}</div>
+            <div><strong>${escapeHtml(mapText("校巴"))} ${escapeHtml(route.id)}</strong> ${escapeHtml(mapName(route))}${escapeHtml(directionText)}${escapeHtml(vehicleText)}</div>
+            <div>${escapeHtml(arrivalText)} · ${escapeHtml(mapText(confidence.shortLabel))}</div>
+            <div>${escapeHtml(mapText(route.service))} · ${escapeHtml(mapText(CUHK_BUS_UTILS.scheduleSummary(route)))}</div>
           `;
         })
         .join("");
       const emptyLine = scheduledArrivals.length ? "" : "<div>当前没有预计会经过本站的班次</div>";
       const periodHint = CUHK_BUS_UTILS.servicePeriodHint();
-      const periodLine = periodHint ? `<div>提示：${escapeHtml(periodHint)}</div>` : "";
-      return `
-        <strong>${escapeHtml(popupEntry.stop.name)}</strong>
+      const periodLine = periodHint ? `<div>${escapeHtml(mapText("提示："))}${escapeHtml(mapText(periodHint))}</div>` : "";
+      return mapHtml(`
+        <strong>${escapeHtml(mapName(popupEntry.stop))}</strong>
         <div>校巴站点</div>
         ${stopDirectionLine}
         ${periodLine}
         ${CUHK_CAMPUS_UPDATES.noticesForStop(popupEntry.id).map((notice) => `<div class="campus-event">${escapeHtml(notice.text)}${notice.coordinateStatus === "existing_school_bus_stop" ? "" : "<br>临时站精确坐标待确认，请按现场站牌候车。"}<br><a href="${escapeHtml(notice.sourceUrl)}" target="_blank" rel="noopener noreferrer">交通处原公告</a></div>`).join("")}
         ${CUHK_CAMPUS_UPDATES.serviceAlerts.filter((alert) => popupEntry.occurrences.some((item) => CUHK_CAMPUS_UPDATES.suspensionForRoute(item.route.id)?.id === alert.id)).map((alert) => `<div class="campus-event">${escapeHtml(alert.text)}</div>`).join("")}
-        <div>预计经过：${scheduledArrivals.length.toLocaleString("zh-CN")} 条线路</div>
+        <div>${escapeHtml(mapText(`预计经过：${scheduledArrivals.length.toLocaleString("zh-CN")} 条线路`))}</div>
         ${emptyLine}
         ${routeRows}
-      `;
+      `);
     }
 
     function renderGpsRouteOptions() {
@@ -2928,18 +2946,18 @@
         lineJoin: "round"
       }).addTo(layer);
 
-      line.bindPopup(() => `
-        <strong>校巴 ${escapeHtml(route.id)} · ${escapeHtml(route.name)}</strong>
-        <div>${escapeHtml(route.service)}</div>
-        <div>方向：${escapeHtml(routeDirection)}</div>
-        <div>可信度：${escapeHtml(CUHK_BUS_UTILS.routeEtaConfidence(route).label)}</div>
-        ${CUHK_BUS_UTILS.servicePeriodHint() ? `<div>提示：${escapeHtml(CUHK_BUS_UTILS.servicePeriodHint())}</div>` : ""}
-        <div>时刻：${escapeHtml(CUHK_BUS_UTILS.scheduleSummary(route))}</div>
-        <div>估算运行：${escapeHtml(String(route.schedule && route.schedule.estimatedTripMinutes || "未知"))} 分钟</div>
+      line.bindPopup(() => mapHtml(`
+        <strong>${escapeHtml(mapText("校巴"))} ${escapeHtml(route.id)} · ${escapeHtml(mapName(route))}</strong>
+        <div>${escapeHtml(mapText(route.service))}</div>
+        <div>${escapeHtml(mapText("方向："))}${escapeHtml(mapText(routeDirection))}</div>
+        <div>${escapeHtml(mapText("可信度："))}${escapeHtml(mapText(CUHK_BUS_UTILS.routeEtaConfidence(route).label))}</div>
+        ${CUHK_BUS_UTILS.servicePeriodHint() ? `<div>${escapeHtml(mapText("提示："))}${escapeHtml(mapText(CUHK_BUS_UTILS.servicePeriodHint()))}</div>` : ""}
+        <div>${escapeHtml(mapText("时刻："))}${escapeHtml(mapText(CUHK_BUS_UTILS.scheduleSummary(route)))}</div>
+        <div>${escapeHtml(mapText("估算运行："))}${escapeHtml(mapText(String(route.schedule && route.schedule.estimatedTripMinutes || "未知")))} ${escapeHtml(mapText("分钟"))}</div>
         <div><a href="${escapeHtml(CUHK_BUS_UTILS.scheduleSourceUrl(route))}" target="_blank" rel="noopener">官方时刻表</a></div>
         ${routeReportsHtml(route)}
         <div>${routeStopNames(route).map(escapeHtml).join(" → ")}</div>
-      `);
+      `));
 
       const labelIndex = Math.floor((latLngs.length - 1) / 2);
       L.marker(latLngs[labelIndex], {
@@ -2971,8 +2989,8 @@
           const originStop = originStopInfo && originStopInfo.stop;
           const originDeparture = isOriginDepartureVehicle(vehicle);
           const nextStopText = originDeparture
-            ? `始发站 · ${originStop ? originStop.name : "始发站"}`
-            : (nextStopInfo && nextStopInfo.stop ? nextStopInfo.stop.name : "接近终点");
+            ? (originStop ? mapName(originStop) : mapText("始发站"))
+            : (nextStopInfo && nextStopInfo.stop ? mapName(nextStopInfo.stop) : mapText("接近终点"));
           const etaText = busVehicleEtaText(vehicle);
           const routeConfidence = CUHK_BUS_UTILS.routeEtaConfidence(route);
           const nextEvidence = nextStopInfo && Number.isInteger(nextStopInfo.stopIndex)
@@ -2986,15 +3004,15 @@
               html: `<div class="bus-vehicle-marker" style="--route-color:${route.color}; --vehicle-bearing:${vehicle.bearing}deg; --label-bearing:${-vehicle.bearing}deg"><span class="bus-vehicle-label${vehicleLabel.length > 2 ? ' long' : ''}">${escapeHtml(vehicleLabel)}</span></div>`,
               iconSize: [34, 34], iconAnchor: [17, 17], popupAnchor:[0,-18],
           });
-          const marker = vehicleMarkers.get(markerId) || L.marker([vehicle.coord[1], vehicle.coord[0]], { icon:vehicleIcon, zIndexOffset:900 }).addTo(busVehiclesLayer);
+          const marker = vehicleMarkers.get(markerId) || L.marker([vehicle.coord[1], vehicle.coord[0]], { icon:vehicleIcon, zIndexOffset:900, title: `${vehicleLabel} · ${mapName(route)}`, alt: `${vehicleLabel} · ${mapName(route)}` }).addTo(busVehiclesLayer);
           marker.setLatLng([vehicle.coord[1], vehicle.coord[0]]).setIcon(vehicleIcon);
           vehicleMarkers.set(markerId, marker);
-          const vehiclePopupHtml = `
-            <div class="vehicle-popup"><div class="vehicle-popup-heading"><span style="background:${route.color}">${escapeHtml(vehicleLabel)}</span><strong>${escapeHtml(route.name)}</strong></div>
-            <small>${escapeHtml(originDeparture ? "始发站" : "下一站")}</small><div class="vehicle-popup-next"><strong>${escapeHtml(nextStopText.replace(/^始发站 · /, ''))}</strong><b>${escapeHtml(etaText)}</b></div>
+          const vehiclePopupHtml = mapHtml(`
+            <div class="vehicle-popup"><div class="vehicle-popup-heading"><span style="background:${route.color}">${escapeHtml(vehicleLabel)}</span><strong>${escapeHtml(mapName(route))}</strong></div>
+            <small>${escapeHtml(mapText(originDeparture ? "始发站" : "下一站"))}</small><div class="vehicle-popup-next"><strong>${escapeHtml(nextStopText)}</strong><b>${escapeHtml(etaText)}</b></div>
             <small>时刻表估算 · 非实时 GPS</small>
-            <details><summary>班次详情</summary><div>发车 ${escapeHtml(CUHK_BUS_UTILS.formatTime(vehicle.departure))}</div><div>可信度：${escapeHtml(routeConfidence.label)}</div>${nextEvidence ? `<div>站段依据：${escapeHtml(nextEvidence)}</div>` : ''}${periodHint ? `<div>${escapeHtml(periodHint)}</div>` : ''}<div>${routeStopNames(route).map(escapeHtml).join(" → ")}</div></details></div>
-          `;
+            <details><summary>班次详情</summary><div>${escapeHtml(mapText("发车"))} ${escapeHtml(CUHK_BUS_UTILS.formatTime(vehicle.departure))}</div><div>${escapeHtml(mapText("可信度："))}${escapeHtml(mapText(routeConfidence.label))}</div>${nextEvidence ? `<div>${escapeHtml(mapText("站段依据："))}${escapeHtml(mapText(nextEvidence))}</div>` : ''}${periodHint ? `<div>${escapeHtml(mapText(periodHint))}</div>` : ''}<div>${routeStopNames(route).map(escapeHtml).join(" → ")}</div></details></div>
+          `);
           if (marker.getPopup()) {
             const expanded = marker.getPopup().getElement()?.querySelector('details')?.open;
             marker.setPopupContent(vehiclePopupHtml);
@@ -3035,7 +3053,8 @@
     }
 
     function readableName(tags) {
-      return tags.name || tags["name:zh"] || tags["name:en"] || tags.brand || tags.operator || "未命名地点";
+      const curated = tags.curated_id && CUHK_GUIDE_CORE.search("", "dining").find(item => item.id === tags.curated_id);
+      return mapName(curated || { name: tags.name || tags["name:zh"] || tags["name:en"] || tags.brand || tags.operator || "未命名地点", english: tags["name:en"] });
     }
 
     function poiCategory(tags) {
@@ -3082,21 +3101,22 @@
       const tags = tagsOf(feature);
       const coords = feature.geometry.coordinates;
       const marker = L.marker([coords[1], coords[0]], {
+        title: readableName(tags), alt: readableName(tags),
         icon: L.divIcon({
           className: "",
-          html: `<div class="poi-marker poi-${category.marker}" style="--poi-color:${category.color}"><span class="poi-marker-glyph">${escapeHtml(category.glyph)}</span></div>`,
+          html: `<div class="poi-marker poi-${category.marker}" style="--poi-color:${category.color}"><span class="poi-marker-glyph">${escapeHtml(mapText(category.glyph))}</span></div>`,
           iconSize: [22, 22],
           iconAnchor: [11, 11]
         })
       });
 
-      marker.bindPopup(`
+      marker.bindPopup(mapHtml(`
         <strong>${escapeHtml(readableName(tags))}</strong>
         <div>${escapeHtml(category.label)}</div>
         ${tags.floor ? `<div>${escapeHtml(tags.floor)}</div>` : ""}
-        ${tags.opening_hours ? `<div>营业时间：${escapeHtml(tags.opening_hours)}</div>` : ""}
+        ${tags.opening_hours ? `<div>${escapeHtml(mapText("营业时间："))}${escapeHtml(mapText(tags.opening_hours))}</div>` : ""}
         ${tags.access_note ? `<div>${escapeHtml(tags.access_note)}</div>` : ""}
-      `, { closeButton: false });
+      `), { closeButton: false });
       marker.on("click", () => {
         const id = tags.curated_id || tags["@id"];
         const item = CUHK_GUIDE_CORE.search("", "dining").find(candidate => candidate.id === id);

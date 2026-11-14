@@ -1,6 +1,21 @@
 :root { --purple:#602b83; --ink:#2d163b; --gold:#dba911; --muted:#817488; --border:#e6dfeb; font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:var(--ink); background:#fff; }
 * { box-sizing:border-box; letter-spacing:0; }
 body,h1,p { margin:0; }
+[data-atlas-language] { flex:none; max-width:108px; }
+[data-atlas-language] .cuhk-language-picker > span { display:none; }
+[data-atlas-language] select { width:104px; max-width:108px; min-height:32px; font:12px/1.4 system-ui,sans-serif; padding:5px 2px; }
+html[lang=en] .route-button>span:last-child { max-width:95px; overflow-wrap:anywhere; }
+html[lang=en] .stop-list button { flex-wrap:wrap; }
+html[lang=en] .stop-list small { flex-basis:100%; }
+html[lang=en] .detail-head h2 { min-width:0; overflow-wrap:anywhere; }
+@media(max-width:760px) {
+  html[lang=en] header { gap:6px; padding-inline:10px; }
+  html[lang=en] header h1 { font-size:16px; }
+  html[lang=en] .identity { min-width:0; flex:1; gap:5px; }
+  html[lang=en] .identity p { max-width:160px; font-size:9px; }
+  html[lang=en] .edition { display:none; }
+  html[lang=en] .map-note { flex-wrap:wrap; max-width:calc(100% - 32px); }
+}
 button,a { -webkit-tap-highlight-color:transparent; }
 button { font:inherit; color:inherit; cursor:pointer; }
 button:focus-visible,a:focus-visible,#map:focus-visible { outline:3px solid var(--gold); outline-offset:3px; }

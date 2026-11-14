@@ -93,3 +93,14 @@ University Station train information is retrieved on demand from
 Train times, platforms and destinations remain subject to the provider's terms;
 the application's MIT licence does not relicense this data. The interface names
 MTR as the source and does not imply an official MTR app or guaranteed arrivals.
+
+## OpenCC Chinese Conversion
+
+Traditional Chinese presentation uses the locally hosted OpenCC JS 1.4.2
+bundle from [nk2028/opencc-js](https://github.com/nk2028/opencc-js), distributed
+under MIT with bundled OpenCC dictionary derivatives under Apache-2.0.
+See [OpenCC licence](assets/vendor/opencc-LICENSE.txt),
+[dictionary licence](assets/vendor/opencc-data-LICENSE.txt), and
+[upstream notices](assets/vendor/opencc-THIRD-PARTY.txt). No text is sent to a
+translation service. Existing bilingual campus data and OSM `name:en` tags
+provide English place labels; unknown names are not inferred from coordinates.

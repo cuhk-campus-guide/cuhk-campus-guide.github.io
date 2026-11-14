@@ -23,7 +23,9 @@
         .map(r=>({at:Date.parse(stop.operator==='GMB'?r.timestamp:r.eta),remark:stop.operator==='GMB'?(r.remarks_sc||r.remarks_tc||''):(r.rmk_sc||r.rmk_tc||'')}))
         .filter(r=>Number.isFinite(r.at) && r.at>=at-30000).sort((a,b)=>a.at-b.at);
       const next=estimates[0];
-      result.push({key,route:route.route,destination:route.terminal?'由'+route.origin:'往'+route.destination,
+      const english=globalThis.CUHK_I18N?.language()==='en';
+      const destination=english?(route.terminal?'From ':'To ')+(route.terminal?route.originEnglish||route.origin:route.destinationEnglish||route.destination):(route.terminal?'由'+route.origin:'往'+route.destination);
+      result.push({key,route:route.route,destination,
         eta:next?(next.at-at<60000?'即将到站':Math.ceil((next.at-at)/60000)+' 分钟'):'暂无时间',
         timestamp:next?next.at:null,meta:next && /scheduled|原定|未开出|未開出/i.test(next.remark)?'计划班次':'',terminal:!!route.terminal});
     }
