@@ -12,6 +12,7 @@
     '穿梭与转堂校巴':'Shuttle and class buses', '穿梭校巴':'Shuttle buses', '转堂校巴':'Class buses',
     '日间穿梭线路':'Daytime shuttles', '晚间与假日线路':'Evening and holiday routes',
     '非教学日':'Non-teaching days', '教学日':'Teaching days', '上行':'Uphill', '下行':'Downhill',
+    '往新亚':'To New Asia', '往逸夫':'To Shaw', '往本部':'To Main campus',
     '45 分班次':':45 departures', '00 分班次':':00 departures', '部分班次停靠':'Selected departures only',
     '部分班次':'Selected departures', '起点':'Start', '终点':'Terminus',
     '标准双语':'Standard bilingual', '精简中文':'Compact', '白底站牌':'White signs', '紫金强调':'Purple and gold',
@@ -52,8 +53,8 @@
     '只限教学日':'Teaching days only', '不停逸夫书院':'Does not stop at Shaw College',
     '非教学日停大学站广场及崇基教学楼，不停大学站':'On non-teaching days, stops at Station Piazza and Chung Chi Teaching Buildings, not University Station',
     '每小时 45 分班次停邵逸夫堂':'The :45 departure stops at Sir Run Run Shaw Hall',
-    '逢 00 分班次停研究生宿舍一座':'The :00 departure stops at 研究生宿舍一座',
-    '每小时 00 分班次停研究生宿舍一座及 39 区':'The :00 departure stops at 研究生宿舍一座 and Area 39',
+    '逢 00 分班次停研究生宿舍一座':'The :00 departure stops at Postgraduate Hall 1',
+    '每小时 00 分班次停研究生宿舍一座及 39 区':'The :00 departure stops at Postgraduate Hall 1 and Area 39',
   };
   // Unverified proper-name extensions remain Chinese; only existing English fields are used below.
   let names = new Map();
@@ -145,5 +146,5 @@
       if (secondary) secondary.textContent = '';
     }
   }
-  window.AtlasI18n = {init, text, apply};
+  window.AtlasI18n = {init, text, apply, phrases};
 })();
