@@ -14,6 +14,7 @@ test('actual shared runtime covers all languages and Hong Kong proper-name spell
   const en=harness('en').I,trad=harness('zh-Hant').I,simp=harness().I;
   assert.equal(en.t('校园地图'),'Campus map');assert.equal(en.t('找到 1 个地点'),'1 place found');
   assert.equal(en.t('找到 12 个地点'),'12 places found');
+  assert.equal(en.t('中大校巴路线图 · 道路骨架版'),'CUHK bus map · Road network diagram');
   assert.equal(trad.t('图书馆'),'圖書館');assert.equal(simp.t('圖書館'),'图书馆');
   assert.equal(trad.name({name:'范克廉楼'}),'范克廉樓');
   assert.equal(trad.t('Zoom out'),'縮小');assert.equal(simp.t('Zoom in'),'放大');

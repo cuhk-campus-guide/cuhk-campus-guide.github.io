@@ -168,6 +168,7 @@
     '独立维护的中大校巴、餐厅与校园设施地图，非校方官方服务。':{en:'An independent CUHK shuttle, dining and campus facilities map; not an official University service.'},'CUHK Campus Guide 独立项目':{en:'CUHK Campus Guide independent project'},'CUHK 校园指南的紫金色校园地图与校巴位置示意':{en:'The CUHK Campus Guide map with purple-and-gold estimated shuttle markers'},'CUHK 校园指南的校园地图画面':{en:'The CUHK Campus Guide map'},'CUHK 校园指南校园地图':{en:'CUHK Campus Guide map'},
     '香港中文大学校巴总线路图，查看穿梭校巴、转堂校巴及各站途经线路。此图为非地理比例示意，实际运营安排以中大交通处最新公告为准。':{en:'CUHK shuttle and meet-class bus route atlas with stops and routes. Schematic, not to geographic scale. Actual service follows the latest CUHK Transport Office notices.'},'查看中大穿梭校巴、转堂校巴与站点线路总览。独立项目，运营安排以交通处公告为准。':{en:'Explore CUHK shuttle and meet-class routes and stops. Independent project; actual service follows Transport Office notices.'},'中大穿梭校巴、转堂校巴与站点线路总览，非校方官方服务。':{en:'CUHK shuttle and meet-class routes and stops. Not an official University service.'}
   });
+  register({'道路骨架版':{en:'Road network diagram'},'中大校巴路线图 · 道路骨架版':{en:'CUHK bus map · Road network diagram'}});
   const api={language:()=>current,t,traditional,simplified,name,englishOf,bilingual,setLanguage,mountSwitcher,register,translateDOM};
   root.CUHK_I18N=api;
   if(typeof module!=='undefined')module.exports=api;
