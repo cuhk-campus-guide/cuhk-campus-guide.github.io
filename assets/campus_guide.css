@@ -167,12 +167,12 @@ body.guide-enabled .metro-list { width:min(680px,100%); display:block; }
 .metro-heading button { display:grid; place-items:center; width:40px; height:40px; padding:0; border:1px solid var(--guide-line); border-radius:5px; background:var(--guide-bg); color:var(--guide-purple); cursor:pointer; }
 .metro-heading svg { width:19px; height:19px; }
 body.guide-enabled .metro-card, body.guide-enabled .metro-card.is-expanded { border:0; border-bottom:1px solid var(--guide-line); border-radius:0; box-shadow:none; background:var(--guide-bg); }
-body.guide-enabled .metro-main { grid-template-columns:36px minmax(0,1fr) auto; padding:16px 14px; gap:10px; }
+body.guide-enabled .metro-main { grid-template-columns:36px minmax(0,1fr) 98px; padding:16px 14px; gap:10px; }
 body.guide-enabled .metro-rail { display:none; }
 body.guide-enabled .metro-badge { width:36px; height:36px; border-radius:5px; font-size:16px; font-weight:700; }
 body.guide-enabled .metro-route { color:var(--guide-muted); font-size:11px; font-weight:400; line-height:1.5; white-space:normal; }
 body.guide-enabled .metro-next { color:var(--guide-text); font-size:14px; font-weight:600; line-height:1.5; white-space:normal; overflow-wrap:anywhere; }
-body.guide-enabled .metro-eta { color:var(--guide-purple); font-size:14px; font-weight:650; }
+body.guide-enabled .metro-eta { color:var(--guide-purple); font-size:14px; font-weight:650; white-space:normal; overflow-wrap:normal; }
 body.guide-enabled .metro-empty { color:var(--guide-muted); background:transparent; border:0; font-size:14px; }
 body.guide-enabled .lcd-panel { padding:16px 0 12px; margin:0 0 14px; background:transparent; color:var(--guide-text); border-radius:0; }
 body.guide-enabled .lcd-track { padding:36px 10px 10px; }
@@ -190,7 +190,7 @@ body.guide-enabled .lcd-bus-model::after { bottom:-4px; left:4px; right:4px; hei
 .lcd-bus-number { position:absolute; bottom:1px; left:0; width:100%; color:#fff; font:700 9px/1 Arial,sans-serif; }
 body.guide-enabled button:focus-visible, body.guide-enabled [role="button"]:focus-visible { outline:3px solid var(--guide-gold); outline-offset:2px; }
 @media (prefers-reduced-motion:reduce) { body.guide-enabled *, body.guide-enabled *::before, body.guide-enabled *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
-@media (max-width:360px) { body.guide-enabled .metro-main { padding:14px 10px; gap:8px; } body.guide-enabled .metro-eta { font-size:12px; } }
+@media (max-width:360px) { body.guide-enabled .metro-main { grid-template-columns:36px minmax(0,1fr) 84px; padding:14px 10px; gap:8px; } }
 .guide-mtr-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; color:var(--guide-purple); }
 .guide-mtr-heading button:disabled { opacity:.45; }
 .guide-mtr-heading > div { display:flex; flex-direction:column; gap:3px; }

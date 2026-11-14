@@ -60,13 +60,13 @@ test('ETA, arrival, direction and evidence display strings translate without cha
   const { mapText } = harness();
   const cases = [
     ['约 7 分钟', 'About 7 min'],
-    ['即将出发', 'Departing soon'],
-    ['即将到达', 'Arriving soon'],
+    ['即将出发', 'Departing'],
+    ['即将到达', 'Due'],
     ['暂无 ETA', 'No ETA available'],
     ['当前估算 1,234 辆', '1,234 estimated running'],
     ['预计经过：12 条线路', 'Upcoming routes: 12'],
     ['预计下一班 09:18（约 7 分钟 · 上行）', 'Next arrival 09:18 (About 7 min · Uphill)'],
-    ['预计下一班 23:00（即将到达）', 'Next arrival 23:00 (Arriving soon)'],
+    ['预计下一班 23:00（即将到达）', 'Next arrival 23:00 (Due)'],
     ['时刻表估算 · 0/5站段', 'Timetable estimate · 0/5 segments'],
     ['GPS校准 · 5/5站段 · 19样本', 'GPS-calibrated · 5/5 segments · 19 samples'],
     ['部分GPS校准 · 2/5站段 · 3样本', 'Partially GPS-calibrated · 2/5 segments · 3 samples'],
@@ -96,9 +96,9 @@ test('vehicle ETA adapter retains shared rounding and origin-departure behavior'
   context.busVehicleNextStopEtaMinutes = vehicle => vehicle.testEta;
   loadFunction(context, 'isOriginDepartureVehicle');
   loadFunction(context, 'busVehicleEtaText');
-  assert.equal(context.busVehicleEtaText({ route: {}, elapsedMinutes: 0.2, progress: 0 }), 'Departing soon');
+  assert.equal(context.busVehicleEtaText({ route: {}, elapsedMinutes: 0.2, progress: 0 }), 'Departing');
   assert.equal(context.busVehicleEtaText({ route: {}, elapsedMinutes: 2, testEta: 6.1 }), 'About 7 min');
-  assert.equal(context.busVehicleEtaText({ route: {}, elapsedMinutes: 2, testEta: 0.5 }), 'Arriving soon');
+  assert.equal(context.busVehicleEtaText({ route: {}, elapsedMinutes: 2, testEta: 0.5 }), 'Due');
   assert.equal(context.busVehicleEtaText({ route: {}, elapsedMinutes: 2, testEta: NaN }), 'No ETA available');
 });
 

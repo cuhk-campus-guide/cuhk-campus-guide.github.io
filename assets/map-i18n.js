@@ -8,7 +8,7 @@
     "返回地图": "Back to map", "香港中文大学地图": "CUHK campus map",
     "暂无运行中的校巴": "No buses currently running", "始发站": "Origin",
     "下一站": "Next stop", "接近终点": "Approaching terminus",
-    "即将出发": "Departing soon", "即将到达": "Arriving soon", "暂无 ETA": "No ETA available",
+    "即将出发": "Departing", "即将到达": "Due", "暂无 ETA": "No ETA available",
     "校巴": "Shuttle", "站": "B", "上": "↑", "下": "↓", "双": "↕", "环": "↻",
     "上行": "Uphill", "下行": "Downhill", "环线": "Circular",
     "上行 / 下行": "Uphill / Downhill", "按线路方向": "In route direction",
@@ -53,7 +53,7 @@
 
   // Exact short labels shared with demos/shuttle-atlas/atlas-i18n.js.
   const routeNames = {
-    "本部线": "Main campus", "新联线": "New Asia / United",
+    "本部线": "Main campus", "新联线": "New Asia / United", "研究生宿舍线": "Postgraduate halls",
     "新联线 S": "New Asia / United S", "新联线（S）": "New Asia / United S",
     "逸夫线": "Shaw", "环迴线": "Circular", "西部线": "Western campus",
     "晚间线": "Evening", "假日线": "Holiday", "上行线": "Uphill",
@@ -97,17 +97,18 @@
     ["University Library", ["大学图书馆"]],
     ["University Health Centre", ["大学保健医疗中心"]],
     ["University Residence No. 11", ["第十一苑", "11苑"]],
-  ];
-  // These full names have no exact bilingual counterpart in the allowed sources.
-  // Identity entries also prevent t() from translating only a known substring.
-  const unverifiedStopNames = [
-    "崇基C、D座", "伍宜孙书院 / 三、四苑", "三、四苑",
-    "10苑 / 11苑", "10苑", "大学保健处", "大学图书馆 / 文物馆", "文物馆",
+    ["Chung Chi Blocks C & D", ["崇基C、D座"]],
+    ["Wu Yee Sun College / Residences 3 & 4", ["伍宜孙书院 / 三、四苑"]],
+    ["Residences 3 & 4", ["三、四苑"]],
+    ["Residences 10 / 11", ["10苑 / 11苑"]],
+    ["Residence 10", ["10苑"]],
+    ["University Health Service", ["大学保健处"]],
+    ["University Library / Art Museum", ["大学图书馆 / 文物馆"]],
+    ["Art Museum", ["文物馆"]],
   ];
   I18N.register(Object.fromEntries([
     ...Object.entries(routeNames),
     ...stopNames.flatMap(([en, sources]) => sources.map(source => [source, en])),
-    ...unverifiedStopNames.map(source => [source, source]),
   ].map(([source, en]) => [source, { en }])));
 
   const formats = [

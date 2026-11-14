@@ -33,6 +33,22 @@ test('search accepts English and Traditional Chinese without changing the data',
   assert.equal(C.displayNames(C.search('UAB','building')[0]).primary,'University Administration Building');
   assert.equal(JSON.stringify(guide),original);
 });
+test('all current shuttle stops and routes translate with real runtime; source data stays unchanged',()=>{
+  const {I,context}=harness('en');
+  vm.runInContext(fs.readFileSync(path.join(root,'data/cuhk_bus_routes.js'),'utf8'),context);
+  for(const file of ['data/transport_route_schemes.js','data/campus_updates.js'])vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),context);
+  context.CUHK_TRANSPORT_ROUTE_SCHEMES.applyTransportRouteScheme(context.CUHK_BUS_DATA,context.CUHK_TRANSPORT_ROUTE_SCHEMES.normalizeSchemeId(null));
+  context.CUHK_CAMPUS_UPDATES.applyTemporaryStops(context.CUHK_BUS_DATA);
+  const data=context.CUHK_BUS_DATA, before=JSON.stringify(data);
+  const stops=Object.values(data.stops).filter(stop=>stop.kind!=='waypoint');
+  assert(stops.length>=30);
+  for(const item of [...stops,...data.routes])assert(!/[\u3400-\u9fff]/u.test(I.name(item)),item.name);
+  assert.equal(I.name({name:'伍宜孙书院 / 三、四苑'}),'Wu Yee Sun College / Residences 3 & 4');
+  assert.equal(I.name({name:'10苑 / 11苑'}),'Residences 10 / 11');
+  assert.equal(I.name({name:'大学图书馆 / 文物馆'}),'University Library / Art Museum');
+  assert.equal(I.t('即将到达'),'Due');assert.equal(I.t('即将出发'),'Departing');
+  assert.equal(JSON.stringify(data),before);
+});
 test('explicit language overrides saved choice and switch preserves query/hash',()=>{
   const {I,writes,navigation}=harness('zh-Hant','en');assert.equal(I.language(),'zh-Hant');
   I.setLanguage('en');assert.deepEqual(writes,[['cuhk-web-language-v1','en']]);
