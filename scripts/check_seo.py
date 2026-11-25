@@ -9,7 +9,8 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://cuhk-campus-guide.github.io/"
-PRIMARY = {"index.html": BASE, "demos/shuttle-atlas/index.html": BASE + "demos/shuttle-atlas/"}
+LOCALIZED = {"index.html": BASE, "demos/shuttle-atlas/index.html": BASE + "demos/shuttle-atlas/"}
+PRIMARY = {**LOCALIZED, "shuttle-bus/index.html": BASE + "shuttle-bus/"}
 VARIANTS = {"demos/shuttle-atlas/road-map.html", "demos/shuttle-atlas/single-line.html"}
 
 
@@ -81,7 +82,9 @@ def main():
     sitemap = ET.parse(ROOT / "sitemap.xml")
     ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     urls = [x.text for x in sitemap.findall("s:url/s:loc", ns)]
-    expected=[url+suffix for url in PRIMARY.values() for suffix in ("", "?lang=zh-Hant", "?lang=en")]
+    expected = list(PRIMARY.values()) + [
+        url + suffix for url in LOCALIZED.values() for suffix in ("?lang=zh-Hant", "?lang=en")
+    ]
     assert sorted(urls) == sorted(expected) and len(urls) == len(set(urls))
     assert "web-gps" not in " ".join(urls)
     with Image.open(ROOT / "assets/site-preview.jpg") as image:

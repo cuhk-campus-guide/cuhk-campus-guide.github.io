@@ -147,6 +147,7 @@
   register({
     '语言':{en:'Language'},'校园地图菜单':{en:'Campus map menu','zh-Hant':'校園地圖選單'},'中大校园':{en:'CUHK Campus'},
     'Zoom in':{en:'Zoom in','zh-Hant':'放大','zh-Hans':'放大'},'Zoom out':{en:'Zoom out','zh-Hant':'縮小','zh-Hans':'缩小'},
+    '校巴时间表':{en:'Shuttle bus timetable','zh-Hant':'校巴時間表'},
     '校园地图':{en:'Campus map'},'车辆到站':{en:'Bus arrivals'},'线路总览':{en:'Route atlas'},'地图显示':{en:'Map layers'},'校园设施':{en:'Campus facilities'},'贡献轨迹':{en:'Contribute GPS'},
     '返回主菜单':{en:'Back to menu'},'外观':{en:'Appearance'},'浅色':{en:'Light'},'深色':{en:'Dark'},'校巴':{en:'Shuttle bus'},'站点':{en:'Stops'},'餐厅':{en:'Dining'},'常用设施':{en:'Facilities'},'步行道':{en:'Walkways'},
     '关闭弹层':{en:'Close panel'},'查看校园全图':{en:'Fit campus map'},'地点搜索':{en:'Place search'},'搜索地点':{en:'Search places'},'搜索起点':{en:'Search start point'},'地点名称、楼宇缩写':{en:'Place name or building code'},
