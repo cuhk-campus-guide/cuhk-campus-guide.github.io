@@ -1649,7 +1649,7 @@
     }
 
     function handleViewModeClick(event) {
-      const button = event.target.closest(".view-mode-button");
+      const button = event.target.closest("button[data-mode]");
       if (!button) return;
       setViewMode(button.dataset.mode === "metro" ? "metro" : "map");
     }
@@ -1660,7 +1660,7 @@
       metroPanel.hidden = !metroMode;
       map.getContainer().inert = metroMode;
       map.getContainer().setAttribute("aria-hidden", String(metroMode));
-      viewModeDock.querySelectorAll(".view-mode-button").forEach((button) => {
+      viewModeDock.querySelectorAll("button[data-mode]").forEach((button) => {
         const active = button.dataset.mode === (metroMode ? "metro" : "map");
         button.classList.toggle("is-active", active);
         button.setAttribute("aria-pressed", active ? "true" : "false");
